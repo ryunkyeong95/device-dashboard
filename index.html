@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>신규 단말 대시보드</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <h1>📱 신규 단말 대시보드</h1>
+
+        <div class="filter-buttons">
+        <button onclick="filterDevices('전체')">전체</button>
+        <button onclick="filterDevices('삼성')">삼성</button>
+        <button onclick="filterDevices('애플')">애플</button>
+        <button onclick="filterDevices('레노버')">레노버</button>
+    </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>제조사</th>
+                    <th>구분</th>
+                    <th>모델명</th>
+                    <th>출시 상태</th>
+                    <th>출시일</th>
+                    <th>OS</th>
+                    <th>화면 크기</th>
+                    <th>링크</th>
+                </tr>
+            </thead>
+
+            <tbody id="deviceTableBody">
+            </tbody>
+        </table>
+    </div>
+
+    <script type="module" src="script.js"></script>
+
+</body>
+</html>
