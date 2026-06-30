@@ -25,3 +25,31 @@ doc = {
 db.collection("devices").document("Galaxy Tab S11").set(doc)
 
 print("Firestore 저장 성공!")
+
+def get_device(model):
+    return db.collection("devices").document(model).get()
+
+def save_device(device):
+    model = device["model"]
+    db.collection("devices").document(model).set(device)
+    print(f"{model} 저장 완료")
+
+def upsert_device(device):
+    model = device["model"]
+    existing = get_device(model)
+
+    if existing.exists:
+        db.collection("devices").document(model).update({
+            "releaseDate": device["releaseDate"],
+            "status": device["status"],
+            "link": device["link"],
+            "lastChecked": device["lastChecked"],
+            "source": device["source"],
+            "publishedAt": device["publishedAt"],
+            "description": device["description"],
+            "articleId": device["articleId"],
+            "updatedAt": device["updatedAt"]
+        })
+        print(f"{model} 업데이트 완료")
+    else:
+        save_device(device)

@@ -78,8 +78,6 @@ function renderDevices(deviceList) {
                  ${getStatus(device.releaseDate)}
                 </td>
                 <td>${device.releaseDate}</td>
-                <td>${device.os}</td>
-                <td>${device.screen}</td>
                 <td>
                  ${
                      device.link
@@ -110,8 +108,8 @@ window.filterDevices = function (brand) {
 
 async function loadDevices() {
     const querySnapshot = await getDocs(collection(db, "devices"));
-
-    const devices = [];
+    
+    const devices = []; 
 
     querySnapshot.forEach((doc) => {
         devices.push(doc.data());

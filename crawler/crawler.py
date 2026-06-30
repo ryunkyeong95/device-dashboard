@@ -1,7 +1,9 @@
-from samsung import crawl_samsung
+from samsung import get_samsung_articles
+from firebase_service import upsert_device
 
-print("크롤링 시작")
+devices = get_samsung_articles()
 
-crawl_samsung()
+for device in devices:
+    upsert_device(device)
 
-print("크롤링 종료")
+print("삼성 RSS 수집 및 Firestore 저장 완료")
