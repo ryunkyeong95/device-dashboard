@@ -50,10 +50,19 @@ function getVisibleDevices(devices) {
     oneYearLater.setFullYear(today.getFullYear() + 1);
 
     const visibleDevices = devices.filter(device => {
-        const releaseDate = new Date(device.releaseDate);
 
-        return releaseDate >= oneYearAgo &&
-               releaseDate <= oneYearLater;
+    if (!device.model) {
+        return false;
+    }
+
+    if (!device.releaseDate) {
+        return true;
+    }
+
+    const releaseDate = new Date(device.releaseDate);
+
+    return releaseDate >= oneYearAgo &&
+           releaseDate <= oneYearLater;
     });
 
     visibleDevices.sort((a, b) => {
