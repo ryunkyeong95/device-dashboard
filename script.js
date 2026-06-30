@@ -55,6 +55,10 @@ function getVisibleDevices(devices) {
         return false;
     }
 
+    if (device.status === "후보") {
+        return false;
+    }
+
     if (!device.releaseDate) {
         return true;
     }

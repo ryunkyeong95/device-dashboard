@@ -147,12 +147,15 @@ def is_release_candidate(title, description):
         "watch",
         "buds",
         "xr",
-        "features",
         "study",
         "research"
     ]
 
     has_include = any(word in text for word in include_words)
-    has_exclude = any(word in text for word in exclude_words)
+    matched_excludes = [word for word in exclude_words if word in text]
+
+    print("matched exclude:", matched_excludes)
+
+    has_exclude = len(matched_excludes) > 0
 
     return has_include and not has_exclude
