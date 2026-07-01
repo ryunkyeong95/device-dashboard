@@ -92,8 +92,10 @@ def get_samsung_articles():
                 continue
 
             guid = item.find("guid")
+            link = item.find("link")
 
             article_id = guid.text if guid else ""
+            article_link = link.text if link else article_id
 
             pub_date = item.find("pubDate").text
 
@@ -106,9 +108,9 @@ def get_samsung_articles():
                 "type": "Mobile",
                 "model": model,
                 "title": title,
-                "status": "출시 예정" if is_new_release else "후보",
+                "status": "Upcoming" if is_new_release else "Candidate",
                 "releaseDate": "",
-                "link": guid.text if guid else "",
+                "link": article_link,
                 "source": "Samsung RSS",
                 "publishedAt": pub_date,
                 "description": description,

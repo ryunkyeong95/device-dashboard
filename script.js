@@ -79,7 +79,7 @@ function renderDevices(deviceList) {
                 <td class="${getStatus(device.releaseDate) === '출시 완료' ? 'released' : 'upcoming'}">
                  ${getStatus(device.releaseDate)}
                 </td>
-                <td>${device.releaseDate}</td>
+                <td>${device.releaseDate || "-"}</td>
                 <td>
                  ${
                      device.link
@@ -111,7 +111,8 @@ function applyFilters() {
 
     if (selectedYear !== "전체") {
         filteredDevices = filteredDevices.filter(device => {
-            return String(device.releaseDate || "").startsWith(selectedYear);
+            const dateText = device.releaseDate || device.publishedAt || "";
+            return String(dateText).includes(selectedYear);
         });
     }
 
