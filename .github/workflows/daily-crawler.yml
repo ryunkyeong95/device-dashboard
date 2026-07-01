@@ -3,6 +3,9 @@ name: Daily Device Crawler
 on:
   workflow_dispatch:
 
+  schedule:
+    - cron: '0 0 * * *'
+
 jobs:
   crawl:
     runs-on: ubuntu-latest
