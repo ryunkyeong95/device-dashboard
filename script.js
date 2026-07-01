@@ -80,10 +80,11 @@ function renderDevices(deviceList) {
 
     tableBody.innerHTML = "";
 
-    deviceList.forEach(device => {
+    deviceList.forEach((device, index) => {
 
         const row = `
             <tr>
+                <td>${index + 1}</td>
                 <td>${device.brand}</td>
                 <td>${device.type}</td>
                 <td>${device.model}</td>
@@ -112,8 +113,14 @@ window.filterDevices = function (brand) {
         return;
     }
 
+    const brandMap = {
+        "삼성": "Samsung",
+        "애플": "Apple",
+        "레노버": "Lenovo"
+    };
+
     const filteredDevices = visibleDevices.filter(device => {
-        return device.brand === brand;
+        return device.brand === brandMap[brand];
     });
 
     renderDevices(filteredDevices);
