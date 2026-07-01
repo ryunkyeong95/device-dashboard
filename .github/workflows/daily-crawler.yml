@@ -24,6 +24,7 @@ jobs:
           pip install firebase-admin
           pip install openai
           pip install python-dotenv
+          pip install lxml
 
       - name: Create .env
         run: |
