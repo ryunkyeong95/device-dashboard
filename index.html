@@ -12,12 +12,18 @@
     <div class="container">
         <h1>📱 신규 단말 대시보드</h1>
 
-        <div class="filter-buttons">
-        <button onclick="filterDevices('전체')">전체</button>
-        <button onclick="filterDevices('삼성')">삼성</button>
-        <button onclick="filterDevices('애플')">애플</button>
-        <button onclick="filterDevices('레노버')">레노버</button>
-    </div>
+        <div class="filter-section">
+            <button class="filter-btn brand-btn active" onclick="filterDevices('전체')">전체</button>
+            <button class="filter-btn brand-btn" onclick="filterDevices('삼성')">삼성</button>
+            <button class="filter-btn brand-btn" onclick="filterDevices('애플')">애플</button>
+            <button class="filter-btn brand-btn" onclick="filterDevices('레노버')">레노버</button>
+        </div>
+
+        <div class="filter-section year-filter">
+            <button class="filter-btn year-btn" onclick="filterByYear('전체')">전체</button>
+            <button class="filter-btn year-btn" onclick="filterByYear('2025')">2025년</button>
+            <button class="filter-btn year-btn active" onclick="filterByYear('2026')">2026년</button>
+        </div>
 
         <table>
             <thead>

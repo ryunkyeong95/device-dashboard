@@ -4,6 +4,8 @@ import { getFirestore, collection, getDocs } from "https://www.gstatic.com/fireb
 
 let allDevices = [];
 let visibleDevices = [];
+let selectedBrand = "전체";
+let selectedYear = "2026";
 
 const firebaseConfig = {
     apiKey: "AIzaSyAvpfJGYP5wmuhIsW2dFxO7Cu1fUZOsCjw",
@@ -41,36 +43,22 @@ const oneYearLater = new Date(today);
 oneYearLater.setFullYear(today.getFullYear() + 1);
 
 function getVisibleDevices(devices) {
-    const today = new Date();
-
-    const oneYearAgo = new Date(today);
-    oneYearAgo.setFullYear(today.getFullYear() - 1);
-
-    const oneYearLater = new Date(today);
-    oneYearLater.setFullYear(today.getFullYear() + 1);
 
     const visibleDevices = devices.filter(device => {
 
-    if (!device.model) {
-        return false;
-    }
+        if (!device.model) {
+            return false;
+        }
 
-    if (device.status === "후보") {
-        return false;
-    }
+        if (device.status === "후보") {
+            return false;
+        }
 
-    if (!device.releaseDate) {
         return true;
-    }
-
-    const releaseDate = new Date(device.releaseDate);
-
-    return releaseDate >= oneYearAgo &&
-           releaseDate <= oneYearLater;
     });
 
     visibleDevices.sort((a, b) => {
-        return new Date(a.releaseDate) - new Date(b.releaseDate);
+        return String(a.releaseDate || "").localeCompare(String(b.releaseDate || ""));
     });
 
     return visibleDevices;
@@ -106,12 +94,8 @@ function renderDevices(deviceList) {
     });
 }
 
-window.filterDevices = function (brand) {
-
-    if (brand === "전체") {
-        renderDevices(visibleDevices);
-        return;
-    }
+function applyFilters() {
+    let filteredDevices = visibleDevices;
 
     const brandMap = {
         "삼성": "Samsung",
@@ -119,11 +103,45 @@ window.filterDevices = function (brand) {
         "레노버": "Lenovo"
     };
 
-    const filteredDevices = visibleDevices.filter(device => {
-        return device.brand === brandMap[brand];
-    });
+    if (selectedBrand !== "전체") {
+        filteredDevices = filteredDevices.filter(device => {
+            return device.brand === brandMap[selectedBrand];
+        });
+    }
+
+    if (selectedYear !== "전체") {
+        filteredDevices = filteredDevices.filter(device => {
+            return String(device.releaseDate || "").startsWith(selectedYear);
+        });
+    }
 
     renderDevices(filteredDevices);
+}
+
+window.filterDevices = function (brand) {
+
+    selectedBrand = brand;
+
+    document.querySelectorAll(".brand-btn").forEach(btn => {
+        btn.classList.remove("active");
+    });
+
+    event.target.classList.add("active");
+
+    applyFilters();
+}
+
+window.filterByYear = function (year) {
+
+    selectedYear = year;
+
+    document.querySelectorAll(".year-btn").forEach(btn => {
+        btn.classList.remove("active");
+    });
+
+    event.target.classList.add("active");
+
+    applyFilters();
 }
 
 async function loadDevices() {
@@ -138,6 +156,8 @@ async function loadDevices() {
     allDevices = devices;
 
     visibleDevices = getVisibleDevices(devices);
+
+    const hiddenDevices = devices.filter(d => !visibleDevices.includes(d));
 
     renderDevices(visibleDevices);
 }
