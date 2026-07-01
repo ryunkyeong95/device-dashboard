@@ -4,12 +4,35 @@ on:
   workflow_dispatch:
 
 jobs:
-  test:
+  crawl:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Test Message
-        run: echo "GitHub Actions Success!"
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests
+          pip install beautifulsoup4
+          pip install firebase-admin
+          pip install openai
+          pip install python-dotenv
+
+      - name: Create .env
+        run: |
+          echo "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}" > .env
+
+      - name: Create Firebase Service Account
+        run: |
+          echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}' > crawler/serviceAccountKey.json
+
+      - name: Run crawler
+        run: |
+          python crawler/crawler.py
