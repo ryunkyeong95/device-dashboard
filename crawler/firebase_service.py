@@ -18,10 +18,16 @@ print("Firebase 연결 성공!")
 def get_device(model):
     return db.collection("devices").document(model).get()
 
+
+def exists_device(model):
+    return get_device(model).exists
+
+
 def save_device(device):
     model = device["model"]
     db.collection("devices").document(model).set(device)
     print(f"{model} 저장 완료")
+
 
 def upsert_device(device):
     model = device["model"]

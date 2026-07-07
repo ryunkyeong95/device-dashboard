@@ -95,6 +95,7 @@ function renderDevices(deviceList) {
 }
 
 function applyFilters() {
+    console.log("selectedYear =", selectedYear);
     let filteredDevices = visibleDevices;
 
     const brandMap = {
@@ -116,6 +117,7 @@ function applyFilters() {
         });
     }
 
+    console.log(filteredDevices);
     renderDevices(filteredDevices);
 }
 
@@ -146,6 +148,7 @@ window.filterByYear = function (year) {
 }
 
 async function loadDevices() {
+    console.log("script loaded");
     const querySnapshot = await getDocs(collection(db, "devices"));
     
     const devices = []; 
@@ -160,7 +163,7 @@ async function loadDevices() {
 
     const hiddenDevices = devices.filter(d => !visibleDevices.includes(d));
 
-    renderDevices(visibleDevices);
+    applyFilters();
 }
 
 loadDevices();
